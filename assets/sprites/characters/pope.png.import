@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6r2r03tbsyao"
-path="res://.godot/imported/guard.png-4beae9d986db7e6073dc6d2019e961c5.ctex"
+uid="uid://bqmdv6uw2fe5b"
+path="res://.godot/imported/pope.png-773b77cc0ab9da452159011869a34ed5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/guard.png"
-dest_files=["res://.godot/imported/guard.png-4beae9d986db7e6073dc6d2019e961c5.ctex"]
+source_file="res://assets/sprites/characters/pope.png"
+dest_files=["res://.godot/imported/pope.png-773b77cc0ab9da452159011869a34ed5.ctex"]
 
 [params]
 

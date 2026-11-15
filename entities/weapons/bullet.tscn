@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://s0ilotoqoap1" path="res://entities/weapons/bullet.gd" id="1_6qime"]
 [ext_resource type="Texture2D" uid="uid://dp6xjcpl46rjo" path="res://assets/sprites/projectiles/bullet-spritesheet.png" id="3_ioq15"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cqea"]
-size = Vector2(5, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ioq15"]
+radius = 4.1231055
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kfn8c"]
 atlas = ExtResource("3_ioq15")
@@ -46,10 +46,10 @@ animations = [{
 script = ExtResource("1_6qime")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1083764597]
-position = Vector2(1.5, 0)
-shape = SubResource("RectangleShape2D_4cqea")
+position = Vector2(2, 0)
+shape = SubResource("CircleShape2D_ioq15")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=376457472]
 sprite_frames = SubResource("SpriteFrames_4cqea")
 autoplay = "default"
-frame_progress = 0.12263165
+frame_progress = 0.105141856
