@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccok1dhf2rieg"
-path="res://.godot/imported/18_Jail_16x16.png-1f2132b1854a127f83a2df7cc777b774.ctex"
+uid="uid://dpc7q0yabq6gl"
+path="res://.godot/imported/TilesetFloorB.png-1858a4cff59f831371828cb7b43ae094.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/18_Jail_16x16.png"
-dest_files=["res://.godot/imported/18_Jail_16x16.png-1f2132b1854a127f83a2df7cc777b774.ctex"]
+source_file="res://assets/tilesets/TilesetFloorB.png"
+dest_files=["res://.godot/imported/TilesetFloorB.png-1858a4cff59f831371828cb7b43ae094.ctex"]
 
 [params]
 

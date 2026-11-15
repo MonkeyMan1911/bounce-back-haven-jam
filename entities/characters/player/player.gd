@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var gun: GunBase = $Gun
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var camera: Camera2D = $Camera2D
-@onready var hud: HUD = $HUD   # change the type to match your HUD scene's root
+@onready var hud: HUD = $HUD 
 
 @export var speed: float = 100.0
 @export var acceleration: float = 100.0
