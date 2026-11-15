@@ -4,6 +4,7 @@ extends CanvasLayer
 @onready var ammo_label: Label = $Ammo/AmmoLabel
 @onready var ammo_pool_label: Label = $Ammo/AmmoPoolLabel
 @onready var health_bar: HealthBar = $Health/HealthBar
+@onready var score_label: Label = $Score/ScoreLabel
 
 @export var player: Player
 
@@ -17,3 +18,6 @@ func _process(delta: float) -> void:
 
 	#Health Bar
 	health_bar.update_health(player.health_component.current_health, player.health_component.max_health)
+
+	#Score label
+	score_label.text = str(player.score)

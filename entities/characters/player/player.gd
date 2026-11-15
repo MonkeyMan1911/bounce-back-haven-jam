@@ -5,9 +5,9 @@ extends CharacterBody2D
 @onready var gun: GunBase = $Gun
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var camera: Camera2D = $Camera2D
-@onready var hud: HUD = $HUD 
+@onready var hud: HUD = $HUD
 
-@export var speed: float = 100.0
+@export var speed: float = 500.0
 @export var acceleration: float = 100.0
 @export var aim_deadzone: float = 6.0
 @export var ammo_pool: int = 36
@@ -20,8 +20,11 @@ var gun_dir: float = 0.0
 var bullets_paused: bool = false
 var normal_bullet_speed: float
 
+var score: int = 0
+
 func _ready() -> void:
 	add_to_group("player")
+	health_component.died.connect(respawn)
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("time_pause"):
@@ -112,3 +115,7 @@ func _get_direction_string(dir: Vector2) -> String:
 	if abs(dir.x) > abs(dir.y):
 		return "right" if dir.x > 0 else "left"
 	return "down" if dir.y > 0 else "up"
+
+
+func add_ammo(amt: int) -> void:
+	ammo_pool += amt

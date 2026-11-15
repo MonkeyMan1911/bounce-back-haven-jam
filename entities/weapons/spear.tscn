@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bg3t6arjsk764"]
+
+[ext_resource type="Texture2D" uid="uid://efmauchpfpls" path="res://assets/sprites/weapons/Gladiator Weapons/spear.png" id="1_f2yqq"]
+[ext_resource type="Script" uid="uid://1xqyq2pbxmy6" path="res://entities/weapons/spear.gd" id="1_vpw5r"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0e8cy"]
+radius = 4.0
+height = 18.0
+
+[node name="Spear" type="Area2D" unique_id=1718391172]
+script = ExtResource("1_vpw5r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1733513223]
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("1_f2yqq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1724416660]
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_0e8cy")

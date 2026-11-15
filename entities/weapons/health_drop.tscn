@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ds3pquyl36q3r"]
+
+[ext_resource type="Texture2D" uid="uid://bli05m7mxv1ha" path="res://assets/UI/health.png" id="1_gbhc8"]
+[ext_resource type="Script" uid="uid://c42bicq6w01up" path="res://entities/weapons/health_drop.gd" id="1_n4n8q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cqea"]
+
+[node name="HealthDrop" type="Area2D" unique_id=120965762]
+script = ExtResource("1_n4n8q")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=843210438]
+texture = ExtResource("1_gbhc8")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1018393057]
+shape = SubResource("RectangleShape2D_4cqea")

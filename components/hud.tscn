@@ -61,3 +61,21 @@ offset_bottom = 40.0
 [node name="HealthBar" parent="Health" unique_id=1977648583 instance=ExtResource("4_aricx")]
 position = Vector2(21.999998, 14.999999)
 scale = Vector2(10, 10)
+
+[node name="Score" type="Control" parent="." unique_id=207730929]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="Score" unique_id=667957783]
+layout_mode = 0
+offset_left = 930.0
+offset_top = -8.0
+offset_right = 1134.0
+offset_bottom = 103.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_4cqea")
+horizontal_alignment = 2
+vertical_alignment = 1

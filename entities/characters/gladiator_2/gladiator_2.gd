@@ -2,13 +2,14 @@ class_name Gladiator2
 extends CharacterBody2D
 
 @export var speed: float = 40.0
-@export var attack_damage: float = 10.0
+@export var attack_damage: float = 20.0
 @export var attack_cooldown: float = 1.2
 @export var swing_time: float = 0.25
 @export var windup_time: float = 0.15
 @export_range(30.0, 270.0) var swing_arc_degrees: float = 120.0
 
 @export var attack_range_padding: float = 4.0
+@export_range(0.0, 1.0) var drop_chance: float = 0.5
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var animated_sprite: AnimatedSprite2D = $Sprite
@@ -27,6 +28,7 @@ var _hit_this_swing: bool = false
 
 
 func _ready() -> void:
+	health_component.died.connect(die)
 	attack_radius_node.set_deferred("disabled", true)
 
 	var circle := attack_radius_node.shape as CircleShape2D
@@ -75,6 +77,23 @@ func _physics_process(_delta: float) -> void:
 func take_damage(attack_damage_amount) -> void:
 	health_component.update_health(attack_damage_amount)
 
+func die() -> void:
+	player.score += 20
+	drop()
+	queue_free()
+
+func drop() -> void:
+	if randf() > drop_chance:
+		return
+	var health_or_ammo = randi_range(1, 3)
+	if health_or_ammo == 1:
+		var ammo_drop := AmmoDrop.new()
+		ammo_drop.position = position
+		get_parent().add_child.call_deferred(ammo_drop)
+	else:
+		var health_drop := HealthDrop.new()
+		health_drop.position = position
+		get_parent().add_child.call_deferred(health_drop)
 
 #  Attacking
 func _start_attack() -> void:
