@@ -17,9 +17,23 @@ var aim_vector: Vector2 = Vector2.DOWN
 var facing_direction: Vector2 = Vector2.DOWN
 var gun_dir: float = 0.0
 
+var bullets_paused: bool = false
+var normal_bullet_speed: float
+
 func _physics_process(delta: float) -> void:
 	if !is_multiplayer_authority():
 		return
+
+	if Input.is_action_just_pressed("time_pause"):
+		if !bullets_paused:
+			normal_bullet_speed = gun.bullet_speed
+			gun.bullet_speed = 4
+			bullets_paused = true
+		else:
+			gun.bullet_speed = normal_bullet_speed
+			for bullet in get_tree().get_nodes_in_group("bullets"):
+				bullet.speed = normal_bullet_speed
+			bullets_paused = false
 
 	if Input.is_action_pressed("shoot"):
 		gun.fire()

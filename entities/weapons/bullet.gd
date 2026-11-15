@@ -14,6 +14,8 @@ var _exclude: Array[RID] = []
 
 
 func _ready() -> void:
+	add_to_group("bullets")
+
 	var gun := get_parent() as GunBase
 	assert(gun != null, "Bullet must be spawned as a child of a GunBase")
 

@@ -28,8 +28,6 @@ shape = SubResource("CapsuleShape2D_vlty2")
 [node name="HealthComponent" parent="." unique_id=1183181241 node_paths=PackedStringArray("health_bar") instance=ExtResource("2_tiof7")]
 position = Vector2(0, 5)
 health_bar = NodePath("../HealthBar")
-max_health = 100.0
-current_health = 100.0
 
 [node name="HealthBar" parent="." unique_id=1977648583 instance=ExtResource("3_uitrf")]
 position = Vector2(-10, -11)
