@@ -1,12 +1,16 @@
 class_name Bullet
 extends Area2D
 
+@export var max_bounces: int = -1  # -1 = unlimited (still dies at bullet_range)
+
 var speed: float
 var damage: float
 var bullet_range: float
 var direction: Vector2
 var distance_traveled: float = 0.0
 var shooter: Node
+var bounces: int = 0
+var _exclude: Array[RID] = []
 
 
 func _ready() -> void:
@@ -22,24 +26,54 @@ func _ready() -> void:
 	direction = gun.shot_direction
 	global_rotation = direction.angle()
 
-	body_entered.connect(_on_body_entered)
+	# Don't let the ray hit the bullet itself or whoever fired it
+	_exclude.append(get_rid())
+	if shooter is CollisionObject2D:
+		_exclude.append(shooter.get_rid())
+
 	reparent.call_deferred(get_tree().current_scene)
 
 
 func _physics_process(delta: float) -> void:
-	var movement := direction * speed * delta
+	var remaining := speed * delta
+	var space := get_world_2d().direct_space_state
 
-	global_position += movement
-	distance_traveled += movement.length()
+	# Loop so a bullet can bounce more than once in a frame (e.g. into a corner)
+	for i in 4:
+		if remaining <= 0.0:
+			break
+
+		var query := PhysicsRayQueryParameters2D.create(
+			global_position,
+			global_position + direction * remaining,
+			collision_mask,
+			_exclude
+		)
+		var hit := space.intersect_ray(query)
+
+		if hit.is_empty():
+			global_position += direction * remaining
+			distance_traveled += remaining
+			break
+
+		# Travel to the impact point
+		var travelled := global_position.distance_to(hit.position)
+		distance_traveled += travelled
+		remaining -= travelled
+
+		var collider = hit.collider
+		if collider.has_method("take_damage"):
+			collider.take_damage(damage)
+
+		if max_bounces >= 0 and bounces >= max_bounces:
+			queue_free()
+			return
+
+		# Reflect and nudge off the surface so we don't re-hit it next step
+		bounces += 1
+		direction = direction.bounce(hit.normal).normalized()
+		global_position = hit.position + hit.normal * 0.1
+		global_rotation = direction.angle()
 
 	if distance_traveled >= bullet_range:
 		queue_free()
-
-
-func _on_body_entered(body: Node2D) -> void:
-	if body == shooter:
-		return
-	if body.has_method("take_damage"):
-		body.take_damage(damage)
-
-	queue_free()

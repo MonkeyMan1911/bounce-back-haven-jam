@@ -1,17 +1,55 @@
 [gd_scene format=3 uid="uid://ce2lf8sl5qhvu"]
 
 [ext_resource type="Script" uid="uid://s0ilotoqoap1" path="res://entities/weapons/bullet.gd" id="1_6qime"]
-[ext_resource type="Texture2D" uid="uid://clgl8nqq2g7a3" path="res://assets/sprites/projectiles/bullet.png" id="1_mt7h7"]
+[ext_resource type="Texture2D" uid="uid://dp6xjcpl46rjo" path="res://assets/sprites/projectiles/bullet-spritesheet.png" id="3_ioq15"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4cqea"]
 size = Vector2(5, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfn8c"]
+atlas = ExtResource("3_ioq15")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bplg4"]
+atlas = ExtResource("3_ioq15")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8fme"]
+atlas = ExtResource("3_ioq15")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnpab"]
+atlas = ExtResource("3_ioq15")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4cqea"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfn8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bplg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8fme")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnpab")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 9.0
+}]
+
 [node name="Bullet" type="Area2D" unique_id=1682033128]
 script = ExtResource("1_6qime")
-
-[node name="Sprite" type="Sprite2D" parent="." unique_id=1217906806]
-texture = ExtResource("1_mt7h7")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1083764597]
 position = Vector2(1.5, 0)
 shape = SubResource("RectangleShape2D_4cqea")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=376457472]
+sprite_frames = SubResource("SpriteFrames_4cqea")
+autoplay = "default"
+frame_progress = 0.12263165
