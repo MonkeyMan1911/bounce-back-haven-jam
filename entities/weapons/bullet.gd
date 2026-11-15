@@ -1,7 +1,7 @@
 class_name Bullet
 extends Area2D
 
-@export var max_bounces: int = -1  # -1 = unlimited (still dies at bullet_range)
+@export var max_bounces: int = -1
 
 var speed: float
 var damage: float
@@ -28,7 +28,6 @@ func _ready() -> void:
 	direction = gun.shot_direction
 	global_rotation = direction.angle()
 
-	# Don't let the ray hit the bullet itself or whoever fired it
 	_exclude.append(get_rid())
 	if shooter is CollisionObject2D:
 		_exclude.append(shooter.get_rid())
@@ -40,7 +39,6 @@ func _physics_process(delta: float) -> void:
 	var remaining := speed * delta
 	var space := get_world_2d().direct_space_state
 
-	# Loop so a bullet can bounce more than once in a frame (e.g. into a corner)
 	for i in 4:
 		if remaining <= 0.0:
 			break
@@ -58,7 +56,6 @@ func _physics_process(delta: float) -> void:
 			distance_traveled += remaining
 			break
 
-		# Travel to the impact point
 		var travelled := global_position.distance_to(hit.position)
 		distance_traveled += travelled
 		remaining -= travelled
@@ -71,7 +68,6 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 			return
 
-		# Reflect and nudge off the surface so we don't re-hit it next step
 		bounces += 1
 		direction = direction.bounce(hit.normal).normalized()
 		global_position = hit.position + hit.normal * 0.1

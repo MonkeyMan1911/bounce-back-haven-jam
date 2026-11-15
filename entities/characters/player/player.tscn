@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ybk30lsgce1h" path="res://assets/sprites/weapons/assault_rifle_down.png" id="4_bls4j"]
 [ext_resource type="PackedScene" uid="uid://ce2lf8sl5qhvu" path="res://entities/weapons/bullet.tscn" id="4_fkugw"]
 [ext_resource type="PackedScene" uid="uid://q88u47wgunc2" path="res://components/health_component.tscn" id="7_0d5hj"]
+[ext_resource type="PackedScene" uid="uid://cdru213wxmx4i" path="res://components/hud.tscn" id="7_m0gj2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0gj2"]
 atlas = ExtResource("2_a3s12")
@@ -399,7 +400,7 @@ script = ExtResource("1_abrql")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1170241637]
 sprite_frames = SubResource("SpriteFrames_4cqea")
-animation = &"walk_up"
+animation = &"idle_down"
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1343961804]
 position = Vector2(0, 4)
@@ -421,3 +422,6 @@ gun_texture = ExtResource("4_bls4j")
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_a3s12")
 debug_color = Color(0.6620359, 0.08316059, 0.19991067, 0.41960785)
+
+[node name="HUD" parent="." unique_id=437859698 node_paths=PackedStringArray("player") instance=ExtResource("7_m0gj2")]
+player = NodePath("..")
