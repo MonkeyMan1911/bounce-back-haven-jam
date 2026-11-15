@@ -1,0 +1,13 @@
+Since the game jam theme is "bounce back", we wanted to take that in two differernt ways. One is to bounce back in time, from the present to ancient Rome.
+The other way we took "bounce back" is real bouncing, bullet bouncing. 
+Our game is about a priest bounced back in time, trying to cleasnse the sins of ancient Romes gladiators. 
+The priest has a gun, loaded with holy water. These bullets bounce off walls and enemies, doing damage. 
+The gladiators spawn around the priest, in an attempt to kill him, as he is in their collosseum. 
+Defeating gladiators grants score, and they sometimes drop extra ammo.
+The priest has an ability, triggered by pressing space. It slows down the time of the bullets fired in the time, and cancelling the ability causes the buildup
+of bullets to fire all at once. This ability has a cooldown. 
+The game gets harder as the preist defeats enemies.
+Controls
+WASD is used to move, with forward being where the cursor is. Looking up and pressing W goes up, looking right and pressing D goes down. 
+Left click to shoot, right click and R are reload. 
+Space to activate special ability. 
