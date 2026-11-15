@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bicefuyit8im6"]
+
+[ext_resource type="FontFile" uid="uid://cdve4tpyeaow7" path="res://assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_vmbys"]
+[ext_resource type="Script" uid="uid://dwtk8sucsv37e" path="res://components/main_menu.gd" id="1_wdogw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4cqea"]
+font = ExtResource("1_vmbys")
+font_size = 80
+
+[sub_resource type="Theme" id="Theme_cuvo0"]
+default_font = ExtResource("1_vmbys")
+default_font_size = 50
+
+[node name="MainMenu" type="CanvasLayer" unique_id=1609991332]
+script = ExtResource("1_wdogw")
+
+[node name="Label" type="Label" parent="." unique_id=344020472]
+offset_left = 392.0
+offset_top = 127.0
+offset_right = 872.0
+offset_bottom = 224.0
+text = "High Score: 0"
+label_settings = SubResource("LabelSettings_4cqea")
+
+[node name="Button" type="Button" parent="." unique_id=36765668]
+offset_left = 440.0
+offset_top = 237.0
+offset_right = 832.0
+offset_bottom = 361.0
+theme = SubResource("Theme_cuvo0")
+text = "New Game"
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]

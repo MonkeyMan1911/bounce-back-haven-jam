@@ -1,14 +1,25 @@
 [gd_scene format=3 uid="uid://de8aj8eup3m2"]
 
+[ext_resource type="PackedScene" uid="uid://c0o5kr8cjdngx" path="res://scenes/levels/arena.tscn" id="1_baomh"]
 [ext_resource type="PackedScene" uid="uid://b2s5py1ubfij5" path="res://entities/characters/gladiator_2/gladiator_2.tscn" id="3_baomh"]
 [ext_resource type="PackedScene" uid="uid://cni0pfabdyuio" path="res://entities/characters/player/player.tscn" id="3_ny0ho"]
+[ext_resource type="PackedScene" uid="uid://b0jnls6hdak6" path="res://entities/characters/gladiator_1/gladiator_1.tscn" id="3_r4s2l"]
+[ext_resource type="PackedScene" uid="uid://bicefuyit8im6" path="res://components/main_menu.tscn" id="5_r4s2l"]
 
 [node name="test_room" type="Node2D" unique_id=1054231959]
+metadata/_edit_vertical_guides_ = [-1408.0]
 
-[node name="TileMap" type="Node2D" parent="." unique_id=287251141]
-position = Vector2(765, 524)
+[node name="Arena" parent="." unique_id=1306899329 instance=ExtResource("1_baomh")]
+position = Vector2(-738, -723)
 
 [node name="Player" parent="." unique_id=698163481 instance=ExtResource("3_ny0ho")]
 
 [node name="Gladiator_2" parent="." unique_id=1272128726 instance=ExtResource("3_baomh")]
-position = Vector2(78, 14)
+position = Vector2(469, 36)
+
+[node name="Gladiator_1" parent="." unique_id=1023042188 instance=ExtResource("3_r4s2l")]
+position = Vector2(-156, 37)
+
+[node name="MainMenu" parent="." unique_id=1609991332 instance=ExtResource("5_r4s2l")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=218649066]

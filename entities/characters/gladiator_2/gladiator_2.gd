@@ -78,7 +78,7 @@ func take_damage(attack_damage_amount) -> void:
 	health_component.update_health(attack_damage_amount)
 
 func die() -> void:
-	player.score += 20
+	player.score += 30
 	drop()
 	queue_free()
 

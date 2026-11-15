@@ -1,16 +1,21 @@
 class_name Player
 extends CharacterBody2D
 
+const MAIN_MENU_SCENE := preload("res://components/main_menu.tscn")
+
 @onready var animated_sprite: AnimatedSprite2D = $Sprite
 @onready var gun: GunBase = $Gun
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var camera: Camera2D = $Camera2D
 @onready var hud: HUD = $HUD
 
-@export var speed: float = 500.0
+@export var speed: float = 100.0
 @export var acceleration: float = 100.0
 @export var aim_deadzone: float = 6.0
 @export var ammo_pool: int = 36
+
+@export var max_respawns: int = 3
+@export var respawn_delay: float = 3.0
 
 var input_vector: Vector2 = Vector2.ZERO
 var aim_vector: Vector2 = Vector2.DOWN
@@ -21,10 +26,14 @@ var bullets_paused: bool = false
 var normal_bullet_speed: float
 
 var score: int = 0
+var respawns_left: int = 0
+
 
 func _ready() -> void:
 	add_to_group("player")
-	health_component.died.connect(respawn)
+	respawns_left = max_respawns
+	health_component.died.connect(_on_died)
+
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("time_pause"):
@@ -33,10 +42,7 @@ func _physics_process(delta: float) -> void:
 			gun.bullet_speed = 4
 			bullets_paused = true
 		else:
-			gun.bullet_speed = normal_bullet_speed
-			for bullet in get_tree().get_nodes_in_group("bullets"):
-				bullet.speed = normal_bullet_speed
-			bullets_paused = false
+			_end_time_slow()
 
 	if Input.is_action_pressed("shoot"):
 		gun.fire()
@@ -69,26 +75,54 @@ func _physics_process(delta: float) -> void:
 func take_damage(attack_damage):
 	health_component.update_health(attack_damage)
 
-func respawn() -> void:
+
+# ---------- Death / respawn ----------
+
+func _on_died() -> void:
 	visible = false
 	set_physics_process(false)
+	_end_time_slow()
 
-	await get_tree().create_timer(3.0).timeout
+	if respawns_left > 0:
+		respawns_left -= 1
+		await get_tree().create_timer(respawn_delay).timeout
+		if not is_inside_tree():
+			return
+		_place_at_spawn()
+	else:
+		await _game_over()
+		if not is_inside_tree():
+			return
+		score = 0
+		respawns_left = max_respawns
+		_place_at_spawn()
 
-	if not is_inside_tree():
-		return
 
-	var spawn_number = randi_range(1, 5)
-	global_position = get_parent().get_node("Spawners/PlayerSpawn" + str(spawn_number)).global_position
-	health_component.current_health = health_component.max_health
-	velocity = Vector2.ZERO
+func _game_over() -> void:
+	MainMenu.save_high_score(score)
+	var menu := MAIN_MENU_SCENE.instantiate() as MainMenu
+	get_tree().current_scene.add_child(menu)
+	await menu.new_game_pressed
 
+
+func _place_at_spawn() -> void:
+	global_position = get_parent().get_node("PlayerSpawn").global_position
 	visible = true
 	set_physics_process(true)
 	_update_sprite_animation("idle")
 
 
-#  Facing
+func _end_time_slow() -> void:
+	if not bullets_paused:
+		return
+	gun.bullet_speed = normal_bullet_speed
+	for bullet in get_tree().get_nodes_in_group("bullets"):
+		bullet.speed = normal_bullet_speed
+	bullets_paused = false
+
+
+# ---------- Facing ----------
+
 func _quadrant_for_angle(angle: float) -> Vector2:
 	if angle > -PI / 4.0 and angle < PI / 4.0:
 		return Vector2.DOWN
@@ -99,17 +133,20 @@ func _quadrant_for_angle(angle: float) -> Vector2:
 	else:
 		return Vector2.RIGHT
 
+
 func _match_gun_sprite_direction() -> void:
 	facing_direction = _quadrant_for_angle(gun_dir)
 
 
-#  Animation
+# ---------- Animation ----------
+
 func _update_sprite_animation(state: String) -> void:
 	if not animated_sprite:
 		return
 	var animation_name: String = state + "_" + _get_direction_string(facing_direction)
 	if animated_sprite.sprite_frames.has_animation(animation_name):
 		animated_sprite.play(animation_name)
+
 
 func _get_direction_string(dir: Vector2) -> String:
 	if abs(dir.x) > abs(dir.y):
