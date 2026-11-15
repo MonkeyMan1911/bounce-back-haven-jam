@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://c2w3oqax2ccgc"]
+
+[ext_resource type="Texture2D" uid="uid://cjamk14djknfk" path="res://assets/sprites/characters/dummy.png" id="1_1rlxu"]
+[ext_resource type="Script" uid="uid://bbpdpiy5pdn31" path="res://entities/characters/dummy/dummy.gd" id="1_uitrf"]
+[ext_resource type="PackedScene" uid="uid://q88u47wgunc2" path="res://components/health_component.tscn" id="2_tiof7"]
+[ext_resource type="PackedScene" uid="uid://dabf5o3rt350k" path="res://components/health_bar.tscn" id="3_uitrf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vlty2"]
+radius = 6.0
+height = 22.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4cqea"]
+radius = 6.0
+height = 22.0
+
+[node name="Dummy" type="CharacterBody2D" unique_id=1834386159]
+script = ExtResource("1_uitrf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=898934999]
+texture = ExtResource("1_1rlxu")
+region_enabled = true
+region_rect = Rect2(320, 0, 16, 32)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1240817475]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_vlty2")
+
+[node name="HealthComponent" parent="." unique_id=1183181241 node_paths=PackedStringArray("health_bar") instance=ExtResource("2_tiof7")]
+position = Vector2(0, 5)
+health_bar = NodePath("../HealthBar")
+max_health = 100.0
+current_health = 100.0
+
+[node name="HealthBar" parent="." unique_id=1977648583 instance=ExtResource("3_uitrf")]
+position = Vector2(-10, -11)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1772502995]
+
+[node name="HurtboxCollider" type="CollisionShape2D" parent="Hurtbox" unique_id=1078156741]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_4cqea")
+debug_color = Color(0.6620359, 0.08316059, 0.19991067, 0.41960785)

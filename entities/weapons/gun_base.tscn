@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://caht5bmoxt8xb"]
+
+[ext_resource type="Script" uid="uid://br7lqmr37nnpe" path="res://entities/weapons/gun_base.gd" id="1_1v5rc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hj4oi"]
+radius = 6.0
+height = 26.0
+
+[node name="GunBase" type="CharacterBody2D" unique_id=651850271]
+script = ExtResource("1_1v5rc")
+
+[node name="Pivot" type="CollisionShape2D" parent="." unique_id=744355754]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_hj4oi")
+disabled = true
+
+[node name="Sprite" type="Sprite2D" parent="Pivot" unique_id=1046773368]
+position = Vector2(0, 12)
+
+[node name="BulletSpawn" type="Marker2D" parent="Pivot" unique_id=1712826195]
+position = Vector2(0, 12)

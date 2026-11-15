@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://de8aj8eup3m2"]
+
+[ext_resource type="PackedScene" uid="uid://cni0pfabdyuio" path="res://entities/characters/player/player.tscn" id="3_ny0ho"]
+[ext_resource type="PackedScene" uid="uid://c2w3oqax2ccgc" path="res://entities/characters/dummy/dummy.tscn" id="4_baomh"]
+
+[node name="test_room" type="Node2D" unique_id=1054231959]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=287251141]
+position = Vector2(765, 524)
+
+[node name="Dummy" parent="." unique_id=1834386159 instance=ExtResource("4_baomh")]
+position = Vector2(63, 21)
+
+[node name="Player" parent="." unique_id=698163481 instance=ExtResource("3_ny0ho")]

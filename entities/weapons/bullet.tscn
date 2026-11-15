@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ce2lf8sl5qhvu"]
+
+[ext_resource type="Script" uid="uid://s0ilotoqoap1" path="res://entities/weapons/bullet.gd" id="1_6qime"]
+[ext_resource type="Texture2D" uid="uid://clgl8nqq2g7a3" path="res://assets/sprites/projectiles/bullet.png" id="1_mt7h7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cqea"]
+size = Vector2(5, 1)
+
+[node name="Bullet" type="Area2D" unique_id=1682033128]
+script = ExtResource("1_6qime")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1217906806]
+texture = ExtResource("1_mt7h7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1083764597]
+position = Vector2(1.5, 0)
+shape = SubResource("RectangleShape2D_4cqea")
