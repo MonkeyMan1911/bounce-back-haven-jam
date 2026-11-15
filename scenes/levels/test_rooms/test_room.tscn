@@ -1,24 +1,22 @@
 [gd_scene format=3 uid="uid://de8aj8eup3m2"]
 
+[ext_resource type="Script" uid="uid://d0tugjws5b2v3" path="res://components/spawner.gd" id="1_531c6"]
 [ext_resource type="PackedScene" uid="uid://c0o5kr8cjdngx" path="res://scenes/levels/arena.tscn" id="1_baomh"]
 [ext_resource type="PackedScene" uid="uid://b2s5py1ubfij5" path="res://entities/characters/gladiator_2/gladiator_2.tscn" id="3_baomh"]
 [ext_resource type="PackedScene" uid="uid://cni0pfabdyuio" path="res://entities/characters/player/player.tscn" id="3_ny0ho"]
 [ext_resource type="PackedScene" uid="uid://b0jnls6hdak6" path="res://entities/characters/gladiator_1/gladiator_1.tscn" id="3_r4s2l"]
 [ext_resource type="PackedScene" uid="uid://bicefuyit8im6" path="res://components/main_menu.tscn" id="5_r4s2l"]
 
-[node name="test_room" type="Node2D" unique_id=1054231959]
+[node name="test_room" type="Node2D" unique_id=1054231959 node_paths=PackedStringArray("spawn_parent")]
+script = ExtResource("1_531c6")
+gladiator_scenes = Array[PackedScene]([ExtResource("3_r4s2l"), ExtResource("3_baomh")])
+spawn_parent = NodePath(".")
 metadata/_edit_vertical_guides_ = [-1408.0]
 
 [node name="Arena" parent="." unique_id=1306899329 instance=ExtResource("1_baomh")]
-position = Vector2(-738, -723)
+position = Vector2(-805, -668)
 
 [node name="Player" parent="." unique_id=698163481 instance=ExtResource("3_ny0ho")]
-
-[node name="Gladiator_2" parent="." unique_id=1272128726 instance=ExtResource("3_baomh")]
-position = Vector2(469, 36)
-
-[node name="Gladiator_1" parent="." unique_id=1023042188 instance=ExtResource("3_r4s2l")]
-position = Vector2(-156, 37)
 
 [node name="MainMenu" parent="." unique_id=1609991332 instance=ExtResource("5_r4s2l")]
 

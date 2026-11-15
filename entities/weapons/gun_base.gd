@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var reload_speed: float = 1.5 # Seconds
 @export var magazine_capacity: int = 12
 @export var bullet_range: float = 500.0 # Pixels
-@export var bullet_speed: float = 600.0 # Pixels per second (moved over from Bullet)
+@export var bullet_speed: float = 600.0 # Pixels per second
 @export var bullet_scene: PackedScene
 
 
@@ -70,7 +70,6 @@ var shot_position: Vector2
 var shot_direction: Vector2
 
 func _on_fire() -> void:
-	# Runs on the owning player's machine only (the input check happens there).
 	_request_bullet.rpc_id(1, bullet_spawn.global_position, Vector2.DOWN.rotated(global_rotation))
 
 
@@ -81,8 +80,8 @@ func _request_bullet(pos: Vector2, dir: Vector2) -> void:
 		return
 	var sender := multiplayer.get_remote_sender_id()
 	if sender != 0 and sender != get_multiplayer_authority():
-		return   # someone is trying to fire another player's gun
-	_spawn_bullet.rpc(pos, dir)   # server -> everyone, including itself
+		return
+	_spawn_bullet.rpc(pos, dir)
 
 
 # Server -> everyone
@@ -90,7 +89,7 @@ func _request_bullet(pos: Vector2, dir: Vector2) -> void:
 func _spawn_bullet(pos: Vector2, dir: Vector2) -> void:
 	var sender := multiplayer.get_remote_sender_id()
 	if sender != 0 and sender != 1:
-		return   # only the server may spawn bullets
+		return
 	shot_position = pos
 	shot_direction = dir
 	add_child(bullet_scene.instantiate())

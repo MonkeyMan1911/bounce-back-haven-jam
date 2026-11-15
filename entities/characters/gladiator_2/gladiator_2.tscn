@@ -412,6 +412,8 @@ shape = SubResource("CapsuleShape2D_xeo7f")
 [node name="HealthComponent" parent="." unique_id=1183181241 node_paths=PackedStringArray("health_bar") instance=ExtResource("2_223j8")]
 position = Vector2(0, 5)
 health_bar = NodePath("../HealthBar")
+max_health = 80.0
+current_health = 80.0
 
 [node name="HealthBar" parent="." unique_id=1977648583 instance=ExtResource("3_8xabs")]
 position = Vector2(-10, -11)
@@ -433,3 +435,4 @@ position = Vector2(0, 5)
 [node name="Axe" parent="AxePivot" unique_id=1718391172 instance=ExtResource("5_7beeh")]
 position = Vector2(0, 14)
 rotation = -3.1415925
+script = null

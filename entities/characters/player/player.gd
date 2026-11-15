@@ -37,6 +37,15 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if score % 250 == 0 and score > 0:
+		if health_component.current_health <= 60:
+			health_component.current_health += 40
+		ammo_pool += 25
+
+	if score % 150 == 0 and score > 0:
+		gun.bullet_range += 50
+		gun.damage += 10
+
 	if Input.is_action_just_pressed("time_pause"):
 		if !bullets_paused:
 			normal_bullet_speed = gun.bullet_speed

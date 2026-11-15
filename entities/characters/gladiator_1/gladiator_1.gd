@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 const SPEAR_SCENE := preload("res://entities/weapons/spear.tscn")
 
-@export var speed: float = 60.0
+@export var speed: float = 80.0
 @export var attack_damage: float = 10.0
 @export_range(0.0, 1.0) var drop_chance: float = 0.5
 
@@ -12,6 +12,12 @@ const SPEAR_SCENE := preload("res://entities/weapons/spear.tscn")
 @export var spear_regrow_time: float = 1.5
 @export var spear_speed: float = 160.0
 @export var hold_distance: float = 12.0
+
+@export_group("Scaling")
+@export var score_per_tier: int = 200
+@export var damage_increase_per_tier: float = 0.1
+@export var cooldown_decrease_per_tier: float = 0.05
+@export var min_cooldown_multiplier: float = 0.4
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var animated_sprite: AnimatedSprite2D = $Sprite
@@ -102,6 +108,22 @@ func drop() -> void:
 		get_parent().add_child.call_deferred(health_drop)
 
 
+#  Scaling
+func _tier() -> int:
+	if not is_instance_valid(player):
+		return 0
+	return floori(float(player.score) / float(maxi(score_per_tier, 1)))
+
+
+func _current_damage() -> float:
+	return attack_damage * (1.0 + _tier() * damage_increase_per_tier)
+
+
+func _current_cooldown(base: float) -> float:
+	var multiplier := maxf(1.0 - _tier() * cooldown_decrease_per_tier, min_cooldown_multiplier)
+	return base * multiplier
+
+
 #  Spear
 func _start_throw() -> void:
 	_is_throwing = true
@@ -115,7 +137,7 @@ func _start_throw() -> void:
 
 func _release_spear() -> void:
 	var spear := SPEAR_SCENE.instantiate() as Spear
-	spear.damage = attack_damage
+	spear.damage = _current_damage()
 	spear.speed = spear_speed
 
 	get_parent().add_child(spear)
@@ -124,10 +146,12 @@ func _release_spear() -> void:
 
 	held_spear.visible = false
 	_is_throwing = false
-	get_tree().create_timer(spear_regrow_time).timeout.connect(_regrow_spear)
+	get_tree().create_timer(_current_cooldown(spear_regrow_time)).timeout.connect(_regrow_spear)
 
 
 func _regrow_spear() -> void:
+	if not is_instance_valid(held_spear):
+		return
 	_has_spear = true
 	held_spear.visible = true
 

@@ -397,6 +397,7 @@ height = 22.0
 
 [node name="Player" type="CharacterBody2D" unique_id=698163481]
 script = ExtResource("1_abrql")
+ammo_pool = 150
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1170241637]
 sprite_frames = SubResource("SpriteFrames_4cqea")
@@ -411,6 +412,7 @@ zoom = Vector2(3, 3)
 
 [node name="Gun" parent="." unique_id=651850271 instance=ExtResource("3_sglur")]
 position = Vector2(0, 5)
+bullet_range = 600.0
 bullet_scene = ExtResource("4_fkugw")
 gun_texture = ExtResource("4_bls4j")
 

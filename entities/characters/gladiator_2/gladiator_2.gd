@@ -1,7 +1,7 @@
 class_name Gladiator2
 extends CharacterBody2D
 
-@export var speed: float = 40.0
+@export var speed: float = 60
 @export var attack_damage: float = 20.0
 @export var attack_cooldown: float = 1.2
 @export var swing_time: float = 0.25
@@ -10,6 +10,12 @@ extends CharacterBody2D
 
 @export var attack_range_padding: float = 4.0
 @export_range(0.0, 1.0) var drop_chance: float = 0.5
+
+@export_group("Scaling")
+@export var score_per_tier: int = 200
+@export var damage_increase_per_tier: float = 0.1
+@export var cooldown_decrease_per_tier: float = 0.05
+@export var min_cooldown_multiplier: float = 0.4
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var animated_sprite: AnimatedSprite2D = $Sprite
@@ -77,12 +83,27 @@ func _physics_process(_delta: float) -> void:
 func take_damage(attack_damage_amount) -> void:
 	health_component.update_health(attack_damage_amount)
 
+
 func die() -> void:
-	player.score += 30
-	drop()
+	if is_instance_valid(player):
+		player.score += 30
+		drop()
 	queue_free()
 
+
 func drop() -> void:
+	if player.ammo_pool <= 20:
+		var ammo_drop := AmmoDrop.new()
+		ammo_drop.position = position
+		get_parent().add_child.call_deferred(ammo_drop)
+		return
+
+	if player.health_component.current_health <= 20:
+		var health_drop := HealthDrop.new()
+		health_drop.position = position
+		get_parent().add_child.call_deferred(health_drop)
+		return
+
 	if randf() > drop_chance:
 		return
 	var health_or_ammo = randi_range(1, 3)
@@ -94,6 +115,23 @@ func drop() -> void:
 		var health_drop := HealthDrop.new()
 		health_drop.position = position
 		get_parent().add_child.call_deferred(health_drop)
+
+
+#  Scaling
+func _tier() -> int:
+	if not is_instance_valid(player):
+		return 0
+	return floori(float(player.score) / float(maxi(score_per_tier, 1)))
+
+
+func _current_damage() -> float:
+	return attack_damage * (1.0 + _tier() * damage_increase_per_tier)
+
+
+func _current_cooldown() -> float:
+	var multiplier := maxf(1.0 - _tier() * cooldown_decrease_per_tier, min_cooldown_multiplier)
+	return attack_cooldown * multiplier
+
 
 #  Attacking
 func _start_attack() -> void:
@@ -120,11 +158,12 @@ func _end_swing() -> void:
 	_swing_angle = 0.0
 	_is_attacking = false
 	_update_axe_pivot()
-	get_tree().create_timer(attack_cooldown).timeout.connect(func(): _can_attack = true)
+	get_tree().create_timer(_current_cooldown()).timeout.connect(func(): _can_attack = true)
 
 
 func _on_axe_body_entered(body: Node2D) -> void:
 	_try_hit(body)
+
 
 func _check_swing_hits() -> void:
 	if not axe.monitoring or _hit_this_swing:
@@ -137,15 +176,15 @@ func _try_hit(body: Node2D) -> void:
 	if not _is_attacking or _hit_this_swing:
 		return
 	if body is Player:
-		_hit_this_swing = true  # one hit per swing
-		body.health_component.update_health(attack_damage)
+		_hit_this_swing = true
+		body.health_component.update_health(_current_damage())
+
 
 func _update_axe_pivot() -> void:
 	axe_pivot.rotation = facing_direction.angle() - PI / 2.0 + _swing_angle
 
 
-# Animation
-
+#  Animation
 func _update_sprite_animation(state: String) -> void:
 	if not animated_sprite or not animated_sprite.sprite_frames:
 		return
