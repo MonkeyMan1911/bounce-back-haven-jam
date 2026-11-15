@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 const MAIN_MENU_SCENE := preload("res://components/main_menu.tscn")
+const RESPAWN_MENU_SCENE := preload("res://components/respawn_menu.tscn")
 
 @onready var animated_sprite: AnimatedSprite2D = $Sprite
 @onready var gun: GunBase = $Gun
@@ -85,7 +86,7 @@ func _on_died() -> void:
 
 	if respawns_left > 0:
 		respawns_left -= 1
-		await get_tree().create_timer(respawn_delay).timeout
+		await _show_respawn_countdown()
 		if not is_inside_tree():
 			return
 		_place_at_spawn()
@@ -97,6 +98,11 @@ func _on_died() -> void:
 		respawns_left = max_respawns
 		_place_at_spawn()
 
+func _show_respawn_countdown() -> void:
+	var menu = RESPAWN_MENU_SCENE.instantiate() as RespawnMenu
+	menu.duration = respawn_delay
+	get_tree().current_scene.add_child(menu)
+	await menu.finished
 
 func _game_over() -> void:
 	MainMenu.save_high_score(score)
@@ -109,6 +115,7 @@ func _place_at_spawn() -> void:
 	global_position = get_parent().get_node("PlayerSpawn").global_position
 	visible = true
 	set_physics_process(true)
+	health_component.current_health = 100
 	_update_sprite_animation("idle")
 
 

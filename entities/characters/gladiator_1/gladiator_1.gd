@@ -3,8 +3,8 @@ extends CharacterBody2D
 
 const SPEAR_SCENE := preload("res://entities/weapons/spear.tscn")
 
-@export var speed: float = 40.0
-@export var attack_damage: float = 20.0
+@export var speed: float = 60.0
+@export var attack_damage: float = 10.0
 @export_range(0.0, 1.0) var drop_chance: float = 0.5
 
 @export_group("Spear")
