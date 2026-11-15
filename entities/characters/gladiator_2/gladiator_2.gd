@@ -1,7 +1,7 @@
 class_name Gladiator2
 extends CharacterBody2D
 
-@export var speed: float = 80.0
+@export var speed: float = 40.0
 @export var attack_damage: float = 10.0
 @export var attack_cooldown: float = 1.2
 @export var swing_time: float = 0.25
